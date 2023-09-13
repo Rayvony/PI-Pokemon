@@ -1,8 +1,8 @@
-const { getAllPkmn } = require("../controllers/getAllPkmn");
-const { getPkmn } = require("../controllers/getPkmn");
-const { getPkmnByName } = require("../controllers/getPkmnByName");
-const { postPkmn } = require("../controllers/postPkmn");
-const { getTypes } = require("../controllers/getTypes");
+const { getAllPkmn } = require("../handlers/getAllPkmn");
+const { getPkmn } = require("../handlers/getPkmn");
+const { getPkmnByName } = require("../handlers/getPkmnByName");
+const { postPkmn } = require("../handlers/postPkmn");
+const { getTypes } = require("../handlers/getTypes");
 const router = require("express").Router()
 
 router.get("/pokemons/:page?", getAllPkmn);

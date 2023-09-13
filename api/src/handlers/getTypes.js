@@ -1,23 +1,14 @@
 const URL = "https://pokeapi.co/api/v2/type/";
 const axios = require("axios");
-const { Type } = require("../db"); // Importa tu modelo de Sequelize
+const { addInDB } = require("../controllers/addInDB");
 
 let cachedTypes = null; // Variable para almacenar los tipos en caché
 
 const getTypes = async (req, res) => {
     try {
-        // Si ya hay en cache
+        // Si ya hay en cache devuelve cache
         if (cachedTypes !== null) {
             return res.status(200).json(cachedTypes);
-        }
-
-        // Si no cache, verifica si existen tipos en la base de datos
-        const typesFromDB = await Type.findAll();
-
-        // Si hay tipos, guarda en cache y devuelve
-        if (typesFromDB.length > 0) {
-            cachedTypes = typesFromDB;
-            return res.status(200).json(typesFromDB);
         }
 
         // Si no hay, guarda los tipos de la api
@@ -32,8 +23,8 @@ const getTypes = async (req, res) => {
         });
 
         // Guarda los tipos en la base de datos
-        await Type.bulkCreate(types);
-
+        await addInDB(1, types);
+     
         cachedTypes = types;
 
         return res.status(200).json(types);

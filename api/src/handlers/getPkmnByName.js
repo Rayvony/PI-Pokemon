@@ -8,10 +8,12 @@ const getPkmnByName = async (req, res) => {
   try {
     const { value } = req.query;
     const nameLC = value.toLowerCase();
+    //trae de la DB
     const pkmnFromDB = await getInDB(1, nameLC);
     let pkmnFromAPI = null;
     
     try {
+    //trae de la api
       const { data } = await axios(`${URL}${nameLC}`);
       pkmnFromAPI = mapProperties(data);
     } catch (apiError) {
@@ -22,10 +24,7 @@ const getPkmnByName = async (req, res) => {
     }
 
     // Combina los resultados en foundPkmn
-    const foundPkmn = {
-      fromDB: pkmnFromDB,
-      fromAPI: pkmnFromAPI,
-    };
+    const foundPkmn = [...pkmnFromDB, [pkmnFromAPI]];
 
     return res.status(200).json(foundPkmn);
   } catch (error) {

@@ -7,21 +7,22 @@ const getInDB = async (method, idOrName) => {
   try {
     switch (method) {
       case 1:
-        const pkmnFromDB = await Pokemon.findOne({
+        const pkmnFromDB = await Pokemon.findAll({
           where: { name: idOrName },
           include: [
             {
               model: Type,
-              attributes: ['name'],
+              attributes: ['id', 'name'],
             },
           ],
         });
-
-        if (!pkmnFromDB) {
+      
+        if (!pkmnFromDB || pkmnFromDB.length === 0) {
           return handleErrors(1);
         }
-
-        return { fromDB: mapTypes(pkmnFromDB) };
+        const mappedData = pkmnFromDB.map((pokemon) => mapTypes(pokemon));
+      
+        return mappedData;
       
       case 2:
         const dbPokemon = await Pokemon.findOne({

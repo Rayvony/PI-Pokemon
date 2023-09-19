@@ -1,7 +1,7 @@
 const mapTypes = (pokemon) => {
   return [
     {
-      id: pokemon.id.toString(),
+      id: pokemon.id,
       name: pokemon.name,
       weight: pokemon.weight,
       height: pokemon.height,
@@ -21,5 +21,5 @@ const mapTypes = (pokemon) => {
 };
 
 module.exports = {
-  mapTypes
+  mapTypes,
 };

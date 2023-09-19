@@ -1,7 +1,6 @@
-const { Pokemon, Type } = require('../db');
-const {mapTypes} = require('../helpers/mapTypes');
-const {handleErrors} = require('../helpers/handleErrors');
-
+const { Pokemon, Type } = require("../db");
+const { mapTypes } = require("../helpers/mapTypes");
+const { handleErrors } = require("../helpers/handleErrors");
 
 const getInDB = async (method, idOrName) => {
   try {
@@ -12,42 +11,60 @@ const getInDB = async (method, idOrName) => {
           include: [
             {
               model: Type,
-              attributes: ['id', 'name'],
+              attributes: ["id", "name"],
             },
           ],
         });
-      
+
         if (!pkmnFromDB || pkmnFromDB.length === 0) {
-          return handleErrors(1);
         }
         const mappedData = pkmnFromDB.map((pokemon) => mapTypes(pokemon));
-      
+
         return mappedData;
-      
+
       case 2:
         const dbPokemon = await Pokemon.findOne({
           where: { id: idOrName },
           include: [
             {
               model: Type,
-              attributes: ['name'],
+              attributes: ["name", "id"],
             },
           ],
         });
+        const pokemon = mapTypes(dbPokemon);
 
         if (!dbPokemon) {
           return handleErrors(2);
         }
+        return pokemon;
 
-        return { fromDB: mapTypes(dbPokemon) };
+      case 3:
+        const type = await Type.findOne({ where: { id: idOrName } });
 
-        case 3:
-          const type = await Type.findOne({ where: { id: idOrName } });
-        
-          if (!type) {
-            return handleErrors(3);
-          }
-          return type.id;
+        if (!type) {
+          return handleErrors(3);
+        }
+        return type.id;
+
+      case 4:
+        const allPokemonsFromDB = await Pokemon.findAll({
+          include: [
+            {
+              model: Type,
+              attributes: ["id", "name"],
+            },
+          ],
+        });
+
+        if (!allPokemonsFromDB || allPokemonsFromDB.length === 0) {
+          return null;
+        }
+
+        const mappedAllPokemons = allPokemonsFromDB.map((pokemon) =>
+          mapTypes(pokemon)
+        );
+        return mappedAllPokemons;
 
       default:
         return handleErrors("Caso no válido.");
@@ -59,6 +76,5 @@ const getInDB = async (method, idOrName) => {
 };
 
 module.exports = {
-  getInDB
+  getInDB,
 };
-

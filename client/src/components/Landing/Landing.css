@@ -1,0 +1,6 @@
+.containerLanding {
+  background-image: url("../../../public/assets/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}

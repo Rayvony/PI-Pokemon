@@ -1,8 +1,8 @@
-const { getInDB } = require('../controllers/getInDB');
-const { handleErrors } = require('../helpers/handleErrors');
-const { mapProperties } = require('../helpers/mapProperties');
+const { getInDB } = require("../controllers/getInDB");
+const { handleErrors } = require("../helpers/handleErrors");
+const { mapProperties } = require("../helpers/mapProperties");
 const axios = require("axios");
-const URL = "https://pokeapi.co/api/v2/pokemon/"
+const URL = "https://pokeapi.co/api/v2/pokemon/";
 
 const getPkmnByName = async (req, res) => {
   try {
@@ -11,20 +11,20 @@ const getPkmnByName = async (req, res) => {
     //trae de la DB
     const pkmnFromDB = await getInDB(1, nameLC);
     let pkmnFromAPI = null;
-    
+
     try {
-    //trae de la api
+      //trae de la api
       const { data } = await axios(`${URL}${nameLC}`);
       pkmnFromAPI = mapProperties(data);
     } catch (apiError) {
-      if (apiError.response && apiError.response.status === 404) {
+      if (apiError.response) {
       } else {
-        handleErrors(apiError);
+        console.log(apiError);
       }
     }
 
     // Combina los resultados en foundPkmn
-    const foundPkmn = [...pkmnFromDB, [pkmnFromAPI]];
+    const foundPkmn = [...pkmnFromDB.flat(), pkmnFromAPI];
 
     return res.status(200).json(foundPkmn);
   } catch (error) {
@@ -33,5 +33,5 @@ const getPkmnByName = async (req, res) => {
 };
 
 module.exports = {
-  getPkmnByName
+  getPkmnByName,
 };

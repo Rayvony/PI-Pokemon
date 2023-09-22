@@ -4,16 +4,19 @@ import { useSelector } from "react-redux";
 import "./Home.css";
 
 export default function Home() {
-  const { pokemonByName, allPokemons } = useSelector((state) => state);
+  const filterPkmn = useSelector((state) => state.filterPkmn);
+  const pokemonByName = useSelector((state) => state.pokemonByName);
 
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(0);
 
   const startIndex = currentPage * itemsPerPage;
 
-  // Utiliza pokemonByName si tiene datos, de lo contrario, usa allPokemons
-  const currentPokemons =
-    pokemonByName.length > 0 ? pokemonByName : allPokemons;
+  // Usa pokemonByName si tiene datos, de lo contrario, usa filterPkmn
+  let currentPokemons = filterPkmn;
+  if (pokemonByName.length > 0 && pokemonByName !== null) {
+    currentPokemons = pokemonByName;
+  }
 
   const nextPage = () => {
     if (startIndex + itemsPerPage < currentPokemons.length) {
@@ -29,7 +32,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="containerCards">
+      <div className="wrapperCards">
         {currentPokemons
           .slice(startIndex, startIndex + itemsPerPage)
           .map((pkmn) =>
@@ -52,6 +55,9 @@ export default function Home() {
         >
           chevron_left
         </button>
+        <div className=" pageSelector">
+          <p>{currentPage + 1}</p>
+        </div>
         <button
           className="material-symbols-outlined"
           onClick={nextPage}

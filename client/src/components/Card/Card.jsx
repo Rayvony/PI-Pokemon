@@ -15,7 +15,7 @@ export default function Card({ id, sprite, name, types }) {
         <div className="Card">
           <img src={sprite} alt={name} />
           <h2>{name}</h2>
-          <h3>Tipos:</h3>
+          <h3>Types:</h3>
           <div className="wrapper">{typeElements}</div>
         </div>
       </Link>

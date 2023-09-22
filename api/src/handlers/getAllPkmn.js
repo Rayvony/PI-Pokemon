@@ -1,7 +1,7 @@
 const { mapProperties } = require("../helpers/mapProperties");
 const axios = require("axios");
 const { getInDB } = require("../controllers/getInDB");
-const limit = 151;
+const limit = 649;
 
 const getAllPkmn = async (req, res) => {
   try {

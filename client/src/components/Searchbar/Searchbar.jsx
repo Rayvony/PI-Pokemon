@@ -30,7 +30,7 @@ export default function SearchBar({ onSearch }) {
         <input
           type="text"
           className="searchBar"
-          placeholder="Nombre del Pokémon"
+          placeholder="Search by name"
           value={inputValue}
           onChange={onChange}
         />

@@ -34,19 +34,33 @@ function reducer(state = initialState, { type, payload }) {
     case FILTER:
       let filteredPokemons;
       if (payload === "true") {
-        filteredPokemons = state.filterPkmn.filter(
+        filteredPokemons = state.allPokemons.filter(
           (pkmn) => !Number.isInteger(pkmn.id)
         );
       } else if (payload === "false") {
-        filteredPokemons = state.filterPkmn.filter((pkmn) =>
+        filteredPokemons = state.allPokemons.filter((pkmn) =>
           Number.isInteger(pkmn.id)
         );
       } else {
-        filteredPokemons = state.filterPkmn;
+        filteredPokemons = state.allPokemons;
       }
       return {
         ...state,
-        allPokemons: filteredPokemons,
+        filterPkmn: filteredPokemons,
+      };
+
+    case FILTER_TYPE:
+      if (isNaN(payload)) {
+        return state;
+      }
+
+      const filteredByType = state.filterPkmn.filter((pkmn) =>
+        pkmn.types.some((type) => payload === type.id)
+      );
+
+      return {
+        ...state,
+        filterPkmn: filteredByType,
       };
 
     case ORDER:
@@ -56,7 +70,7 @@ function reducer(state = initialState, { type, payload }) {
           .sort((a, b) => a.name.localeCompare(b.name));
         return {
           ...state,
-          allPokemons: [...orderPKMN],
+          filterPkmn: [...orderPKMN],
         };
       } else if (payload === "D") {
         const orderPKMN = state.filterPkmn
@@ -64,16 +78,16 @@ function reducer(state = initialState, { type, payload }) {
           .sort((a, b) => b.name.localeCompare(a.name));
         return {
           ...state,
-          allPokemons: [...orderPKMN],
+          filterPkmn: [...orderPKMN],
         };
       } else {
         return {
           ...state,
-          allPokemons: state.filterPkmn,
         };
       }
 
     case ORDER_ATK:
+      if (payload === "none") return { ...state };
       const orderByAtk = state.filterPkmn.slice().sort((a, b) => {
         const atkA = Number(a.atk);
         const atkB = Number(b.atk);
@@ -84,15 +98,7 @@ function reducer(state = initialState, { type, payload }) {
 
       return {
         ...state,
-        allPokemons: orderByAtk,
-      };
-    case FILTER_TYPE:
-      const filteredByType = state.filterPkmn.filter((pkmn) =>
-        pkmn.types.some((type) => payload.includes(type.id))
-      );
-      return {
-        ...state,
-        allPokemons: filteredByType,
+        filterPkmn: orderByAtk,
       };
 
     default:

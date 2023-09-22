@@ -1,8 +1,21 @@
+@font-face {
+  font-family: "Pokemon Fire Red";
+  src: url(../public/assets/pokemon.ttf);
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url(../public/assets/forest.png);
+  background-size: cover;
+  overflow-y: hidden;
 }
 
 code {
@@ -12,7 +25,10 @@ code {
 
 .NavLink {
   text-decoration: none;
-  color: white;
+}
+
+select:hover {
+  cursor: pointer;
 }
 
 button {
@@ -25,180 +41,14 @@ button {
   cursor: pointer;
   text-transform: capitalize;
   text-decoration: none;
+  transition: 0.1s linear;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-.nav {
-  height: 71px;
-  background-color: #333; /* Color de fondo del navbar */
-  color: white; /* Color del texto en el navbar */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-}
-
-.searchbarContainer {
-  width: 400px;
-  display: flex;
-  transform: translateX(25%);
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
-
-.searchBar {
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.cardContainer a {
-  text-decoration: none;
-  color: black;
-}
-
-.Card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* Centra verticalmente el contenido */
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px;
-  width: 200px;
-  height: 300px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-  background-color: white;
-  text-transform: capitalize;
-}
-
-.Card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.Card img {
-  max-width: 100%;
-  height: auto;
-}
-
-.Card h2 {
-  font-size: 1.5rem;
-  margin: 8px 0;
-}
-
-.Card p {
-  font-size: 1rem;
-  color: #777;
-}
-
-.containerCards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 16px;
-  height: 85vh;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: -20px;
-}
-
-.pagination button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  margin: 0 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.pagination button:hover {
-  background-color: #0056b3;
-}
-
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.DetailContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra horizontalmente */
-  justify-content: center; /* Centra verticalmente */
-  height: 100vh; /* Establece la altura al 100% de la ventana */
-  overflow: hidden;
-}
-
-.Detail {
-  padding: 40px; /* Aumenta el padding */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
-  background-color: #f9f9f9;
-  width: 300px; /* Aumenta el max-width */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.Detail img {
-  width: 100%; /* Aumenta el ancho máximo de la imagen */
-  height: auto; /* Mantiene la proporción de aspecto original de la imagen */
-}
-
-.Detail h2 {
-  margin-top: 20px; /* Aumenta el margen superior del título */
-  text-transform: capitalize;
-}
-
-.Detail p {
-  margin: 8px 0; /* Aumenta el margen vertical de los párrafos */
-}
-.wrapper {
-  width: auto;
-  margin: auto auto;
-  display: grid;
-  grid-gap: 0px;
-  grid-template-columns: repeat(2, calc(50%));
-  align-content: center;
-  align-items: center;
-}
-
-.icon {
-  border-radius: 100%;
-  height: 60px;
-  width: 60px;
-  margin: 5px;
-  transition: 200ms all;
-}
-
-.icon:hover {
-  filter: saturate(200%);
-  transform: scale(1.1);
-  cursor: pointer;
-}
-
-.icon img {
-  height: 60%;
-  width: 60%;
-  margin: 20%;
-}
-
+/* Colores Tipos */
 .bug {
   background: #92bc2c;
   box-shadow: 0 0 20px #92bc2c;
@@ -303,8 +153,7 @@ button:hover {
   padding: 8px;
   border-radius: 4px;
   margin-right: 10px;
-  background-color: #fff; /* Cambia el fondo del select */
-  color: #333; /* Cambia el color del texto en el select */
-  font-size: 14px; /* Cambia el tamaño del texto en el select */
-  /* Agrega más estilos según tus preferencias */
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
 }

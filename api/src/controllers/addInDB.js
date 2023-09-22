@@ -21,6 +21,7 @@ const addInDB = async (method, data) => {
             spAtk,
             spDef,
             spd,
+            cry,
             type1Id,
             type2Id,
           } = data;
@@ -37,6 +38,7 @@ const addInDB = async (method, data) => {
             spAtk,
             spDef,
             spd,
+            cry,
           });
 
           // Asignar type1 al Pokémon

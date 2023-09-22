@@ -99,10 +99,27 @@ export const filterType = (typeID) => {
   };
 };
 
-export const order = (payload) => ({
-  type: ORDER,
-  payload,
-});
+export const order = (orderType, payload) => {
+  switch (orderType) {
+    case "atk":
+      return {
+        type: ORDER_ATK,
+        payload,
+      };
+
+    case "name":
+      return {
+        type: ORDER,
+        payload,
+      };
+
+    default:
+      return {
+        type: ORDER,
+        payload: "none",
+      };
+  }
+};
 
 export const orderAtk = (payload) => ({
   type: ORDER_ATK,

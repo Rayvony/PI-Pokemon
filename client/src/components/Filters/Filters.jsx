@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { filter, order, filterType, orderAtk } from "../../redux/actions";
+import { filter, order, filterType } from "../../redux/actions";
 
 export default function Filters() {
   const location = useLocation();
@@ -9,33 +9,55 @@ export default function Filters() {
 
   const pkmnTypes = useSelector((state) => state.pkmnTypes);
 
+  let filterValue, filterTypeValue, orderValue, orderType;
   const handleFilter = (event) => {
-    dispatch(filter(event.target.value));
-  };
+    const { name, value } = event.target;
 
-  const handleTypeFilter = (event) => {
-    dispatch(filterType(event.target.value));
-  };
+    switch (name) {
+      case "filter":
+        filterValue = value;
+        break;
 
-  const handleOrder = (event) => {
-    dispatch(order(event.target.value));
-  };
+      case "filterType":
+        filterTypeValue = value;
+        break;
 
-  const handleATKOrder = (event) => {
-    dispatch(orderAtk(event.target.value));
+      case "order":
+        orderValue = value;
+        break;
+
+      case "orderType":
+        orderType = value;
+        break;
+      default:
+        break;
+    }
+    dispatch(filter(filterValue));
+    dispatch(filterType(filterTypeValue));
+    dispatch(order(orderType, orderValue));
   };
 
   if (location.pathname === "/home") {
     return (
       <div className="filtersContainer">
-        <p>Filtrar:</p>
+        <p>Filter by:</p>
         <select
           className="filterSelect"
           name="filter"
-          onChange={handleTypeFilter}
-          defaultValue={"Todos"}
+          onChange={handleFilter}
+          defaultValue={"all"}
         >
-          <option value="Todos">Tipo</option>
+          <option value="all">All</option>
+          <option value="false">Official</option>
+          <option value="true">Created</option>
+        </select>
+        <select
+          className="filterSelect"
+          name="filterType"
+          onChange={handleFilter}
+          defaultValue={"all"}
+        >
+          <option value="all">Type</option>
           {pkmnTypes?.map((type) => (
             <option key={type.id} value={type.id}>
               {" "}
@@ -43,41 +65,27 @@ export default function Filters() {
             </option>
           ))}
         </select>
+        <p>Order by:</p>
         <select
           className="filterSelect"
-          name="filter"
+          name="orderType"
           onChange={handleFilter}
-          defaultValue={"Todos"}
+          defaultValue={"-"}
         >
-          <option value="Todos">Todos</option>
-          <option value="false">Oficiales</option>
-          <option value="true">Creados</option>
+          <option value="none"> - </option>
+          <option value="name">Name</option>
+          <option value="atk">Attack</option>
         </select>
+
         <select
           className="filterSelect"
           name="order"
-          onChange={handleOrder}
-          defaultValue={"A"}
+          onChange={handleFilter}
+          defaultValue={"none"}
         >
-          <option value="" disabled="disabled">
-            Orden?
-          </option>
-
           <option value="none"> - </option>
-          <option value="A">Ascendente</option>
-          <option value="D">Descendente</option>
-        </select>
-        <select
-          className="filterSelect"
-          name="orderAtk"
-          onChange={handleATKOrder}
-          defaultValue={"A"}
-        >
-          <option value="" disabled="disabled">
-            Ataque?
-          </option>
-          <option value="A">Ascendente</option>
-          <option value="D">Descendente</option>
+          <option value="A">Ascending</option>
+          <option value="D">Descending</option>
         </select>
       </div>
     );

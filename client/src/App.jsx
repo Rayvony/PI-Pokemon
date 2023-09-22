@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
@@ -10,11 +10,22 @@ import { getAllPkmns, getTypes, getPkmnByName } from "./redux/actions";
 
 function App() {
   const dispatch = useDispatch();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     dispatch(getTypes());
     dispatch(getAllPkmns());
   }, [dispatch]);
+
+  const toggleMusic = () => {
+    setIsPlaying(!isPlaying);
+    if (!isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  };
 
   const onSearch = async (name) => {
     try {
@@ -26,9 +37,20 @@ function App() {
 
   return (
     <div>
-      <Nav onSearch={onSearch} />
+      <audio
+        ref={audioRef}
+        src="./assets/1.m4a"
+        autoPlay
+        loop
+        muted={!isPlaying}
+      />
+      <Nav
+        onSearch={onSearch}
+        toggleMusic={toggleMusic}
+        isPlaying={isPlaying}
+      />
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Landing toggleMusic={toggleMusic} />} />
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/form" element={<Form />} />

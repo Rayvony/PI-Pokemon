@@ -16,7 +16,7 @@
   width: 200px;
   height: 300px;
   box-shadow: 9px 9px 6px rgba(0, 0, 0, 0.5);
-  transition: 0.2s ease-in-out;
+  transition: 0.1s ease-in-out;
   background-color: white;
   text-transform: capitalize;
 }
@@ -27,9 +27,27 @@
 }
 
 .Card img {
-  height: 70%;
-  max-height: 140px;
+  height: 100%;
   width: auto;
+}
+
+
+
+.Card .spriteContainer {
+  width: 100%; /* Ensure the container takes the full width */
+  max-width: 200px; /* Maximum width */
+  max-height: 200px; /* Maximum height */
+  min-width: 120px; /* Minimum width */
+  min-height: 120px; /* Minimum height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.Card .spriteContainer img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain;
 }
 
 .Card h2 {

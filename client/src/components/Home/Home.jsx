@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./Home.css";
+import Pagination from "../Pagination/Pagination";
+import { cleanPkmnByID } from "../../redux/actions";
+import Loading from "../Loading/Loading";
 
-export default function Home() {
+export default function Home({
+  setCurrentPage,
+  currentPage,
+  isLoading,
+  playSelect,
+}) {
+  const dispatch = useDispatch();
   const filterPkmn = useSelector((state) => state.filterPkmn);
   const pokemonByName = useSelector((state) => state.pokemonByName);
-
   const itemsPerPage = 12;
-  const [currentPage, setCurrentPage] = useState(0);
-
   const startIndex = currentPage * itemsPerPage;
+
+  useEffect(() => {
+    dispatch(cleanPkmnByID());
+  }, []);
 
   // Usa pokemonByName si tiene datos, de lo contrario, usa filterPkmn
   let currentPokemons = filterPkmn;
@@ -18,17 +28,13 @@ export default function Home() {
     currentPokemons = pokemonByName;
   }
 
-  const nextPage = () => {
-    if (startIndex + itemsPerPage < currentPokemons.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const prevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="homeLoading">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -43,29 +49,20 @@ export default function Home() {
                 name={pkmn.name}
                 sprite={pkmn.sprite}
                 types={pkmn.types}
+                isLoading={isLoading}
+                playSelect={playSelect}
               />
             ) : null
           )}
       </div>
-      <footer className="pagination">
-        <button
-          className="material-symbols-outlined"
-          onClick={prevPage}
-          disabled={currentPage === 0}
-        >
-          chevron_left
-        </button>
-        <div className=" pageSelector">
-          <p>{currentPage + 1}</p>
-        </div>
-        <button
-          className="material-symbols-outlined"
-          onClick={nextPage}
-          disabled={startIndex + itemsPerPage >= currentPokemons.length}
-        >
-          chevron_right
-        </button>
-      </footer>
+      <Pagination
+        startIndex={startIndex}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        currentPokemons={currentPokemons}
+        playSelect={playSelect}
+      />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { filter, order, filterType } from "../../redux/actions";
 
-export default function Filters() {
+export default function Filters({ setCurrentPage, playSelect }) {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -11,6 +11,9 @@ export default function Filters() {
 
   let filterValue, filterTypeValue, orderValue, orderType;
   const handleFilter = (event) => {
+    playSelect();
+    event.target.blur();
+    setCurrentPage(0);
     const { name, value } = event.target;
 
     switch (name) {
@@ -37,6 +40,11 @@ export default function Filters() {
     dispatch(order(orderType, orderValue));
   };
 
+  const playMenu = () => {
+    const audio = new Audio("../../../assets/emerald_menu.wav");
+    audio.play();
+  };
+
   if (location.pathname === "/home") {
     return (
       <div className="filtersContainer">
@@ -46,6 +54,7 @@ export default function Filters() {
           name="filter"
           onChange={handleFilter}
           defaultValue={"all"}
+          onFocus={playMenu}
         >
           <option value="all">All</option>
           <option value="false">Official</option>
@@ -56,6 +65,7 @@ export default function Filters() {
           name="filterType"
           onChange={handleFilter}
           defaultValue={"all"}
+          onFocus={playMenu}
         >
           <option value="all">Type</option>
           {pkmnTypes?.map((type) => (
@@ -71,6 +81,7 @@ export default function Filters() {
           name="orderType"
           onChange={handleFilter}
           defaultValue={"-"}
+          onFocus={playMenu}
         >
           <option value="none"> - </option>
           <option value="name">Name</option>
@@ -82,6 +93,7 @@ export default function Filters() {
           name="order"
           onChange={handleFilter}
           defaultValue={"none"}
+          onFocus={playMenu}
         >
           <option value="none"> - </option>
           <option value="A">Ascending</option>

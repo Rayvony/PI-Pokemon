@@ -1,20 +1,18 @@
 function handleErrors(errorCase) {
   switch (errorCase) {
     case 1:
-      throw new Error(
-        "No se encontró ningún Pokémon con el nombre proporcionado."
-      );
+      throw new Error("No Pokémon found with the provided name.");
     case 2:
-      throw new Error("No se encontró ningún Pokémon con el ID proporcionado.");
+      throw new Error("No Pokémon found with the provided ID.");
     case 3:
-      throw new Error("No se encontró ningún tipo con el ID proporcionado.");
+      throw new Error("No type found with the provided ID.");
     case 4:
       throw new Error(
-        "Ocurrió un error al buscar el Pokémon en la base de datos."
+        "An error occurred while searching for the Pokémon in the database."
       );
     case 5:
       throw new Error(
-        "Ocurrió un error al agregar un nuevo Pokémon en la base de datos."
+        "An error occurred while adding a new Pokémon to the database."
       );
     default:
       throw new Error("Error: " + errorCase);

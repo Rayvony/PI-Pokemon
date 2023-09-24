@@ -6,7 +6,8 @@ import {
   GET_TYPES,
   GET_PKMNBYNAME,
   GET_PKMNBYID,
-  DELETE_PKMNBYNAME,
+  CLEAN_PKMNBYNAME,
+  CLEAN_PKMNBYID,
   FILTER_TYPE,
   ORDER_ATK,
 } from "./actionTypes";
@@ -22,8 +23,7 @@ export const getAllPkmns = () => {
         payload: data,
       });
     } catch (error) {
-      console.log(error.message);
-      throw new Error("No se encontraron pokémones");
+      throw new Error(error.message);
     }
   };
 };
@@ -39,8 +39,7 @@ export const getTypes = () => {
         payload: data,
       });
     } catch (error) {
-      console.log(error.message);
-      throw new Error("No se encontraron tipos");
+      throw new Error(error.message);
     }
   };
 };
@@ -56,8 +55,7 @@ export const getPkmnByName = (name) => {
         payload: data,
       });
     } catch (error) {
-      console.log(error.message);
-      throw new Error("No se encontro un pokemon con ese nombre");
+      throw new Error(error.message);
     }
   };
 };
@@ -73,15 +71,20 @@ export const getPkmnByID = (id) => {
         payload: data,
       });
     } catch (error) {
-      console.log(error.message);
-      throw new Error("No se encontro un pokemon con ese id");
+      throw new Error(error.message);
     }
   };
 };
 
-export const deletePkmnByName = () => {
+export const cleanPkmnByName = () => {
   return {
-    type: DELETE_PKMNBYNAME,
+    type: CLEAN_PKMNBYNAME,
+  };
+};
+
+export const cleanPkmnByID = () => {
+  return {
+    type: CLEAN_PKMNBYID,
   };
 };
 

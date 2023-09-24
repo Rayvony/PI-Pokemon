@@ -5,9 +5,10 @@ import {
   ORDER,
   GET_PKMNBYNAME,
   GET_PKMNBYID,
-  DELETE_PKMNBYNAME,
+  CLEAN_PKMNBYNAME,
   FILTER_TYPE,
   ORDER_ATK,
+  CLEAN_PKMNBYID,
 } from "./actionTypes";
 
 const initialState = {
@@ -26,8 +27,10 @@ function reducer(state = initialState, { type, payload }) {
       return { ...state, pokemonByName: payload };
     case GET_PKMNBYID:
       return { ...state, pokemonByID: payload };
-    case DELETE_PKMNBYNAME:
+    case CLEAN_PKMNBYNAME:
       return { ...state, pokemonByName: [] };
+    case CLEAN_PKMNBYID:
+      return { ...state, pokemonByID: [] };
     case GET_TYPES:
       return { ...state, pkmnTypes: payload };
 

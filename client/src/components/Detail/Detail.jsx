@@ -1,18 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getPkmnByID } from "../../redux/actions";
+import Loading from "../Loading/Loading";
 import "./Detail.css";
 
-export default function Detail() {
+export default function Detail({ isLoading, setIsLoading, playSelect }) {
   const { id } = useParams();
   const pokemonByID = useSelector((state) => state.pokemonByID);
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    dispatch(getPkmnByID(id));
-  }, []);
+    setIsLoading(true);
+
+    const loadingTimer = setTimeout(() => {
+      dispatch(getPkmnByID(id))
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching Pokémon:", error);
+          setIsLoading(false);
+        });
+    }, 750); //milisegundos
+
+    return () => {
+      clearTimeout(loadingTimer);
+    };
+  }, [dispatch, id]);
+
+  const handleImageClick = () => {
+    if (pokemonByID.cry) {
+      const audio = new Audio(pokemonByID.cry);
+      audio.play().catch((error) => {
+        console.error("Error while playing audio:", error);
+      });
+      setIsPlaying(true);
+    }
+  };
 
   const typeElements = pokemonByID.types?.map((type) => (
     <div key={type.id} className={`icon ${type.name}`}>
@@ -20,27 +46,37 @@ export default function Detail() {
     </div>
   ));
 
-  const handleImageClick = () => {
-    if (pokemonByID.cry) {
-      const audio = new Audio(pokemonByID.cry);
-      audio.play().catch((error) => {
-        console.error("Error al reproducir audio:", error);
-      });
-      setIsPlaying(true);
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="DetailContainer">
+        <div className="Detail">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
 
   if (!pokemonByID) {
-    return <div className="Detail">No se encontró Pokémon</div>;
+    return <div className="Detail">Pokemon not found</div>;
   }
   return (
     <div className="DetailContainer">
       <div className="Detail">
-        <img
-          src={pokemonByID.sprite}
-          alt={pokemonByID.name}
-          onClick={handleImageClick}
-        />
+        <NavLink
+          to="/home"
+          className="material-symbols-outlined"
+          onClick={playSelect}
+        >
+          cancel
+        </NavLink>
+        <div className="spriteContainer">
+          <img
+            className="pkmnSprite"
+            src={pokemonByID.sprite}
+            alt={pokemonByID.name}
+            onClick={handleImageClick}
+          />
+        </div>
         <h2>{pokemonByID.name}</h2>
         <div className="stat">
           <span>ID:</span> {id}
@@ -65,10 +101,12 @@ export default function Detail() {
             <span>SP.DEF:</span> {pokemonByID.spDef}
           </div>
           <div className="stat">
-            <span>Height:</span> {pokemonByID.height}
+            <span>Height:</span>
+            <p>{pokemonByID.height / 10}m</p>
           </div>
           <div className="stat">
-            <span>Weight:</span> {pokemonByID.weight}
+            <span>Weight:</span>
+            <p>{pokemonByID.weight / 100}kg</p>
           </div>
         </div>
         <span className="stat">Types:</span>

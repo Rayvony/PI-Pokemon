@@ -3,15 +3,23 @@ import SearchBar from "../Searchbar/Searchbar";
 import { NavLink, useLocation } from "react-router-dom";
 import Filters from "../Filters/Filters";
 import { useDispatch } from "react-redux";
-import { deletePkmnByName } from "../../redux/actions";
+import { cleanPkmnByName } from "../../redux/actions";
 import "./Nav.css";
 
-export default function Nav({ onSearch, toggleMusic, isPlaying }) {
+export default function Nav({
+  onSearch,
+  toggleMusic,
+  isPlaying,
+  setCurrentPage,
+  playSelect,
+}) {
   const dispatch = useDispatch();
   const location = useLocation();
 
   const handleClick = () => {
-    dispatch(deletePkmnByName());
+    playSelect();
+    dispatch(cleanPkmnByName());
+    setCurrentPage(0);
   };
 
   if (location.pathname !== "/") {
@@ -29,7 +37,12 @@ export default function Nav({ onSearch, toggleMusic, isPlaying }) {
             </NavLink>
 
             <NavLink to="/form">
-              <button className="material-symbols-outlined">create</button>
+              <button
+                className="material-symbols-outlined"
+                onClick={() => playSelect()}
+              >
+                create
+              </button>
             </NavLink>
 
             <button onClick={toggleMusic} className="material-symbols-outlined">
@@ -42,8 +55,8 @@ export default function Nav({ onSearch, toggleMusic, isPlaying }) {
             alt="Pokémon Logo"
           ></img>
 
-          <SearchBar onSearch={onSearch} />
-          <Filters />
+          <SearchBar onSearch={onSearch} playSelect={playSelect} />
+          <Filters setCurrentPage={setCurrentPage} playSelect={playSelect} />
         </nav>
       </header>
     );

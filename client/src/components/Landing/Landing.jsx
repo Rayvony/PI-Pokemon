@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Landing.css";
 
-function Landing({ toggleMusic }) {
+function Landing({ toggleMusic, playSelect }) {
   return (
     <div className="containerLanding">
       <div>
-        <img className="professor" src="../../../assets/Juniper.png"></img>
+        <img
+          className="professor"
+          src="../../../assets/Juniper.png"
+          alt="Professor Juniper"
+        />
       </div>
       <div className="dialogueBox pixel-corners">
         <span>
@@ -14,11 +18,15 @@ function Landing({ toggleMusic }) {
           Would you mind helping me study these fascinating creatures?
         </span>
       </div>
-      <img className="arrow blink" src="../../../assets/arrow.png"></img>
+      <img
+        className="arrow blink"
+        src="../../../assets/arrow.png"
+        alt="Arrow"
+      />
       <div className="options pixel-corners">
         <div className="grid">
           <div className="btn">
-            <NavLink className={"NavLink "} onClick={toggleMusic} to="/home">
+            <NavLink className={"NavLink "} to="/home" onClick={toggleMusic}>
               Yes!
             </NavLink>
           </div>

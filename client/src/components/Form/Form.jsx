@@ -6,7 +6,7 @@ import { getAllPkmns } from "../../redux/actions";
 import { FormField, validate } from "./formHelper";
 import "./Form.css";
 
-export default function Form() {
+export default function Form({ playSelect }) {
   const pkmnTypes = useSelector((state) => state.pkmnTypes);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ export default function Form() {
   };
 
   const handleSubmit = async (event) => {
+    playSelect();
     event.preventDefault();
     if (!validate(formData)) return;
 

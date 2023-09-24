@@ -26,6 +26,10 @@ const getPkmnByName = async (req, res) => {
     // Combina los resultados en foundPkmn
     const foundPkmn = [...pkmnFromDB.flat(), pkmnFromAPI];
 
+    if (foundPkmn[0] === null) {
+      return res.status(404).json({ error: "Pokémon not found" });
+    }
+
     return res.status(200).json(foundPkmn);
   } catch (error) {
     res.status(500).send(error.message);

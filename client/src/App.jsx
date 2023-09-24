@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import Landing from "./components/Landing/Landing";
@@ -11,14 +11,25 @@ import { getAllPkmns, getTypes, getPkmnByName } from "./redux/actions";
 function App() {
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const pokemonByname = useSelector((state) => state.pokemonByname);
   const audioRef = useRef(null);
 
   useEffect(() => {
     dispatch(getTypes());
-    dispatch(getAllPkmns());
+    dispatch(getAllPkmns())
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
   }, [dispatch]);
 
   const toggleMusic = () => {
+    playSelect();
     setIsPlaying(!isPlaying);
     if (!isPlaying) {
       audioRef.current.play();
@@ -27,11 +38,17 @@ function App() {
     }
   };
 
+  const playSelect = () => {
+    const audio = new Audio("../../../assets/emerald_A.wav");
+    audio.play();
+  };
+
   const onSearch = async (name) => {
     try {
       await dispatch(getPkmnByName(name));
+      setCurrentPage(0);
     } catch (error) {
-      console.error("Error al buscar Pokémon:", error);
+      alert("No Pokemon with that name");
     }
   };
 
@@ -39,7 +56,7 @@ function App() {
     <div>
       <audio
         ref={audioRef}
-        src="./assets/1.m4a"
+        src="./assets/Oldale_town.m4a"
         autoPlay
         loop
         muted={!isPlaying}
@@ -48,12 +65,38 @@ function App() {
         onSearch={onSearch}
         toggleMusic={toggleMusic}
         isPlaying={isPlaying}
+        setCurrentPage={setCurrentPage}
+        playSelect={playSelect}
       />
       <Routes>
-        <Route path="/" element={<Landing toggleMusic={toggleMusic} />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/form" element={<Form />} />
+        <Route
+          path="/"
+          element={
+            <Landing toggleMusic={toggleMusic} playSelect={playSelect} />
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <Home
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              isLoading={isLoading}
+              playSelect={playSelect}
+            />
+          }
+        />
+        <Route
+          path="/detail/:id"
+          element={
+            <Detail
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              playSelect={playSelect}
+            />
+          }
+        />
+        <Route path="/form" element={<Form playSelect={playSelect} />} />
       </Routes>
     </div>
   );

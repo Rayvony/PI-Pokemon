@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import Landing from "./components/Landing/Landing";
@@ -13,7 +13,6 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const pokemonByname = useSelector((state) => state.pokemonByname);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -56,7 +55,7 @@ function App() {
     <div>
       <audio
         ref={audioRef}
-        src="./assets/Oldale_town.m4a"
+        src="./assets/Oldale_Town.m4a"
         autoPlay
         loop
         muted={!isPlaying}

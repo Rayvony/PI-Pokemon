@@ -29,7 +29,7 @@ export default function Nav({
           <div className="botonesNav">
             <NavLink to="/home">
               <button
-                className="material-symbols-outlined"
+                className="material-symbols-rounded"
                 onClick={handleClick}
               >
                 home
@@ -38,14 +38,14 @@ export default function Nav({
 
             <NavLink to="/form">
               <button
-                className="material-symbols-outlined"
+                className="material-symbols-rounded"
                 onClick={() => playSelect()}
               >
                 create
               </button>
             </NavLink>
 
-            <button onClick={toggleMusic} className="material-symbols-outlined">
+            <button onClick={toggleMusic} className="material-symbols-rounded">
               {isPlaying ? "volume_up" : "volume_off"}
             </button>
           </div>

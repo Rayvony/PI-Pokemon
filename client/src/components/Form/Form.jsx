@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { postPkmn } from "../../api-helpers/apiService";
-import { getAllPkmns } from "../../redux/actions";
+import { cleanPkmnByName, getAllPkmns } from "../../redux/actions";
 import { FormField, validate } from "./formHelper";
 import "./Form.css";
 
@@ -46,6 +46,7 @@ export default function Form({ playSelect }) {
       await postPkmn(formData);
       dispatch(getAllPkmns());
       console.log("pokemon creado");
+      dispatch(cleanPkmnByName());
       navigate("/home");
     } catch (error) {
       console.log("Error al crear el Pokémon");
@@ -63,6 +64,7 @@ export default function Form({ playSelect }) {
             value={formData.name}
             onChange={handleInputChange}
             required
+            isNumber={false}
           />
 
           <div className="sprite">
@@ -83,6 +85,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
 
           <FormField
@@ -92,6 +95,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
         </div>
 
@@ -103,6 +107,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
 
           <FormField
@@ -112,6 +117,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
         </div>
 
@@ -123,6 +129,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
 
           <FormField
@@ -132,6 +139,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
         </div>
 
@@ -143,6 +151,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
 
           <FormField
@@ -152,6 +161,7 @@ export default function Form({ playSelect }) {
             onChange={handleInputChange}
             required
             type="number"
+            isNumber={true}
           />
         </div>
 
@@ -198,7 +208,7 @@ export default function Form({ playSelect }) {
           type="submit"
           disabled={!validate(formData)}
         >
-          Create Pokémon
+          Create Pokemon
         </button>
       </form>
     </div>

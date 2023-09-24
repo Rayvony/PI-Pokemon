@@ -44,7 +44,7 @@ export default function SearchBar({ onSearch, playSelect }) {
         />
         <button
           onClick={onClick}
-          className="material-symbols-outlined botonSearch"
+          className="material-symbols-rounded botonSearch"
         >
           search
         </button>

@@ -27,7 +27,7 @@ export default function Pagination({
     <div>
       <footer className="pagination">
         <button
-          className="material-symbols-outlined"
+          className="material-symbols-rounded"
           onClick={prevPage}
           disabled={currentPage === 0}
         >
@@ -37,7 +37,7 @@ export default function Pagination({
           <p>{currentPage + 1}</p>
         </div>
         <button
-          className="material-symbols-outlined"
+          className="material-symbols-rounded"
           onClick={nextPage}
           disabled={startIndex + itemsPerPage >= currentPokemons.length}
         >

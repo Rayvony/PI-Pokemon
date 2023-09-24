@@ -64,7 +64,7 @@ export default function Detail({ isLoading, setIsLoading, playSelect }) {
       <div className="Detail">
         <NavLink
           to="/home"
-          className="material-symbols-outlined"
+          className="material-symbols-rounded"
           onClick={playSelect}
         >
           cancel
@@ -106,7 +106,7 @@ export default function Detail({ isLoading, setIsLoading, playSelect }) {
           </div>
           <div className="stat">
             <span>Weight:</span>
-            <p>{pokemonByID.weight / 100}kg</p>
+            <p>{pokemonByID.weight / 10}kg</p>
           </div>
         </div>
         <span className="stat">Types:</span>

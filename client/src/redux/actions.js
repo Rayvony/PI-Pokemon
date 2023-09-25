@@ -13,7 +13,7 @@ import {
 } from "./actionTypes";
 
 export const getAllPkmns = () => {
-  const endpoint = "http://localhost:3001/proyectoPKMN/pokemons/";
+  const endpoint = "/pokemons/";
   return async (dispatch) => {
     try {
       const { data } = await axios.get(endpoint);
@@ -29,7 +29,7 @@ export const getAllPkmns = () => {
 };
 
 export const getTypes = () => {
-  const endpoint = "http://localhost:3001/proyectoPKMN/types/";
+  const endpoint = "/types/";
   return async (dispatch) => {
     try {
       const { data } = await axios.get(endpoint);
@@ -45,7 +45,7 @@ export const getTypes = () => {
 };
 
 export const getPkmnByName = (name) => {
-  const endpoint = `http://localhost:3001/proyectoPKMN/pokemon/name?value=${name}`;
+  const endpoint = `/pokemon/name?value=${name}`;
   return async (dispatch) => {
     try {
       const { data } = await axios.get(endpoint);
@@ -61,7 +61,7 @@ export const getPkmnByName = (name) => {
 };
 
 export const getPkmnByID = (id) => {
-  const endpoint = `http://localhost:3001/proyectoPKMN/pokemon/${id}`;
+  const endpoint = `/pokemon/${id}`;
   return async (dispatch) => {
     try {
       const { data } = await axios.get(endpoint);
